@@ -3,12 +3,17 @@ import ExpandIcon from '../assets/Expand_down.svg';
 
 const regionList = ['Oceania', 'Asia', 'Europe'];
 
-const CountrySort = ({ onRegionButtonClick }) => {
+const CountrySort = ({ onRegionButtonClick, onSortOption }) => {
   // Sort
+  const [sortOption, setSortOption] = useState('Population');
   const [sortToggle, setSortToggle] = useState(false);
-
   const sortHandleToggle = () => {
-    setSortToggle(!sortToggle);
+    setSortToggle((prevSortToggle) => !prevSortToggle);
+  };
+  const handleSortOptionClick = (option) => {
+    onSortOption(option);
+    setSortOption(option);
+    setSortToggle(false);
   };
   // Region
   const [activeButton, setActiveButton] = useState(null);
@@ -25,22 +30,34 @@ const CountrySort = ({ onRegionButtonClick }) => {
       {/* sort by */}
       <div>
         <span>Sort by</span>
-        <div className="flex justify-between mt-2 lg:mr-6 px-2 py-3 border border-gray-200 rounded-lg">
-          <p>Population</p>
+        <div
+          className={`flex justify-between mt-2 lg:mr-6 px-2 py-3 border border-gray-200 ${
+            sortToggle ? 'rounded-t-lg' : 'rounded-lg '
+          }`}
+        >
+          <p>{sortOption}</p>
           <button onClick={sortHandleToggle}>
             <img src={ExpandIcon} alt="Expand down icon" />
           </button>
         </div>
 
         <ul
-          className={`text-white text-sm  bg-gray-200 p-2 lg:mr-6 ${
+          className={`text-white text-sm  bg-gray-200 p-2 lg:mr-6 min-w-[384px] ${
             sortToggle ? 'absolute z-50 w-[270px] ' : ' hidden'
           }`}
         >
-          <li className="my-3 hover:bg-gray-100 p-3 cursor-pointer">
+          <li
+            className="my-3 hover:bg-gray-100 p-3 cursor-pointer"
+            onClick={() => handleSortOptionClick('Population')}
+          >
             Population
           </li>
-          <li className="my-3 hover:bg-gray-100 p-3 cursor-pointer">Area</li>
+          <li
+            className="my-3 hover:bg-gray-100 p-3 cursor-pointer"
+            onClick={() => handleSortOptionClick('Area')}
+          >
+            Area
+          </li>
         </ul>
       </div>
       {/* region */}
@@ -51,10 +68,12 @@ const CountrySort = ({ onRegionButtonClick }) => {
             <button
               key={i}
               onClick={() => handleButtonClick(region)}
-              className={`text-sm text-gray-300 font-semibold 
+              className={`text-sm font-semibold 
               hover:bg-gray-200 w-fit px-2 py-1 rounded-lg 
               drop-shadow-sm ${
-                region === activeButton ? 'bg-gray-200' : 'bg-none'
+                region === activeButton
+                  ? 'bg-gray-200 text-white '
+                  : 'bg-none text-gray-300'
               }`}
             >
               {region}

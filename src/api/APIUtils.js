@@ -21,9 +21,6 @@ export const fetchDataRegion = async (region) => {
   }
 };
 
-// Search country region
-// https://restcountries.com/v3.1/region/${region}
-
 // Search full country name
 // https://restcountries.com/v3.1/name/${name}?fullText=tru
 
