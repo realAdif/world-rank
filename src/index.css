@@ -1,3 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  p {
+    @apply font-semibold text-white text-sm;
+  }
+  span {
+    @apply text-gray-300 text-sm;
+  }
+}
+
+@layer components {
+  .tag {
+    color: theme('colors.gray-300');
+  }
+  .checkbox {
+    padding: theme('padding.6');
+  }
+}
