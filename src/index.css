@@ -11,6 +11,9 @@
   span {
     @apply text-gray-300 text-sm;
   }
+  html {
+    @apply bg-[#282B30];
+  }
 }
 
 @layer components {
