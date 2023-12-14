@@ -13,7 +13,7 @@ const CountryList = ({ countries }) => {
         </thead>
         <tbody className="text-white text-md">
           {countries.map((country, index) => (
-            <tr key={index}>
+            <tr key={index} className="hover:bg-gray-200 cursor-pointer">
               <td className="py-3">
                 <img
                   src={country.flags.svg}

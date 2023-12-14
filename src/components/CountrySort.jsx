@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import ExpandIcon from '../assets/Expand_down.svg';
 
-const regionList = ['Oceania', 'Asia', 'Europe'];
+const regionList = ['Oceania', 'Asia', 'Europe', 'Africa', 'Antarctic'];
 
 const CountrySort = ({ onRegionButtonClick, onSortOption }) => {
   // Sort
@@ -42,7 +42,7 @@ const CountrySort = ({ onRegionButtonClick, onSortOption }) => {
         </div>
 
         <ul
-          className={`text-white text-sm  bg-gray-200 p-2 lg:mr-6 min-w-[384px] ${
+          className={`text-white text-sm  bg-gray-200 p-2 lg:mr-6 min-w-[200px] ${
             sortToggle ? 'absolute z-50 w-[270px] ' : ' hidden'
           }`}
         >
@@ -57,6 +57,12 @@ const CountrySort = ({ onRegionButtonClick, onSortOption }) => {
             onClick={() => handleSortOptionClick('Area')}
           >
             Area
+          </li>
+          <li
+            className="my-3 hover:bg-gray-100 p-3 cursor-pointer"
+            onClick={() => handleSortOptionClick('Name')}
+          >
+            Name
           </li>
         </ul>
       </div>
@@ -96,17 +102,5 @@ const CountrySort = ({ onRegionButtonClick, onSortOption }) => {
     </section>
   );
 };
-
-{
-  /* <button
-              key={i}
-              className={`text-sm text-white font-semibold bg-gray-200 w-fit px-2 py-1 rounded-lg drop-shadow-sm ${
-                toggledButtons.includes(region) ? 'activeToggle' : 'inactiveToggle'
-              }`}
-              onClick={() => handleButtonClick(region)}
-            >
-              {region}
-            </button> */
-}
 
 export default CountrySort;
