@@ -35,7 +35,7 @@ const CountrySort = ({ onRegionButtonClick, onSortOption }) => {
             sortToggle ? 'rounded-t-lg' : 'rounded-lg '
           }`}
         >
-          <p>{sortOption}</p>
+          <p className="text-sm">{sortOption}</p>
           <button onClick={sortHandleToggle}>
             <img src={ExpandIcon} alt="Expand down icon" />
           </button>
@@ -90,12 +90,12 @@ const CountrySort = ({ onRegionButtonClick, onSortOption }) => {
       {/* status */}
       <div>
         <span>Status</span>
-        <div className="flex gap-x-2 mt-2 ">
-          <input type="checkbox" className="w-[24px]" />
+        <div className="flex gap-x-2 mt-2 text-sm ">
+          <input type="checkbox" className="w-[18px]" />
           <p>Member of the United Nation</p>
         </div>
-        <div className="flex gap-x-2 my-3">
-          <input type="checkbox" className="w-[24px]" />
+        <div className="flex gap-x-2 my-3 text-sm">
+          <input type="checkbox" className="w-[18px]" />
           <p>Independent</p>
         </div>
       </div>

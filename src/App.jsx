@@ -12,8 +12,8 @@ function App() {
         </div>
         <div className="lg:absolute top-[9.5rem] w-full pb-12">
           <Routes>
-            <Route path="/country/:id" Component={CountryDetails} />
-            <Route path="/" Component={CountryContainer} />
+            <Route path="/country/:name" element={<CountryDetails />} />
+            <Route path="/" element={<CountryContainer />} />
           </Routes>
         </div>
       </main>

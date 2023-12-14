@@ -5,8 +5,15 @@
 @tailwind utilities;
 
 @layer base {
+  h1,
+  h2 {
+    @apply text-white;
+  }
+  h2 {
+    @apply text-lg;
+  }
   p {
-    @apply font-semibold text-white text-sm;
+    @apply text-white;
   }
   span {
     @apply text-gray-300 text-sm;
@@ -22,5 +29,12 @@
   }
   .checkbox {
     padding: theme('padding.6');
+  }
+  .cardtags {
+    background-color: theme('backgroundColor.gray-200');
+    width: fit-content;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
   }
 }
