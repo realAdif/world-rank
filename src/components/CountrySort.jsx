@@ -60,9 +60,9 @@ const CountrySort = ({ onRegionButtonClick, onSortOption }) => {
           </li>
           <li
             className="my-3 hover:bg-gray-100 p-3 cursor-pointer"
-            onClick={() => handleSortOptionClick('Name')}
+            onClick={() => handleSortOptionClick('Alphabetical')}
           >
-            Name
+            Alphabetical
           </li>
         </ul>
       </div>

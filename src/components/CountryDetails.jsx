@@ -17,7 +17,7 @@ const CountryDetails = () => {
   };
   console.log(country);
   return (
-    <section className="container mx-auto bg-gray-100   lg:rounded-lg lg:shadow-xl lg:border border-gray-200 absolute left-1/2 transform -translate-x-1/2 lg:w-1/2">
+    <section className="container mx-auto bg-gray-100 lg:rounded-lg lg:shadow-xl lg:border border-gray-200 absolute left-1/2 transform -translate-x-1/2 lg:max-w-[550px]">
       {country && (
         <div className="lg:mt-28 mt-12">
           <img

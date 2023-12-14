@@ -5,7 +5,7 @@ import CountrySort from '../components/CountrySort';
 import CountryList from '../components/CountryList';
 
 import { fetchDataAll, fetchDataRegion, fetchSearch } from '../api/APIUtils';
-import { populationSort, areaSort } from '../utils/Sorting';
+import { populationSort, areaSort, alphabeticalSort } from '../utils/Sorting';
 
 const CountryContainer = () => {
   const [countries, setCountries] = useState([]);
@@ -28,10 +28,17 @@ const CountryContainer = () => {
         } else {
           data = await fetchDataAll();
         }
-        if (sortOption === 'Population') {
-          data = populationSort(data);
-        } else {
-          data = areaSort(data);
+
+        switch (sortOption) {
+          case 'Population':
+            data = populationSort(data);
+            break;
+          case 'Area':
+            data = areaSort(data);
+            break;
+          case 'Alphabetical':
+            data = alphabeticalSort(data);
+            break;
         }
 
         setCountries(data);
@@ -72,7 +79,7 @@ const CountryContainer = () => {
   return (
     <main className="container mx-auto bg-gray-100 p-3 lg:p-6 lg:rounded-lg lg:shadow-xl lg:border border-gray-200">
       <section className="flex justify-between items-center mb-6">
-        <p className="tag">Found {countries.length} countries</p>
+        <p className="tag text-sm">Found {countries.length} countries</p>
         <div className="flex gap-x-3 bg-gray-200 p-2 rounded-md">
           <img src={SearchIcon} alt="Search Icon" />
           <input

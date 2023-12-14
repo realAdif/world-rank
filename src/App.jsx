@@ -10,7 +10,7 @@ function App() {
         <div className="bg-black relative">
           <Hero />
         </div>
-        <div className="lg:absolute top-[9.5rem] w-full pb-12">
+        <div className="lg:absolute top-[10.5rem] w-full pb-12">
           <Routes>
             <Route path="/country/:name" element={<CountryDetails />} />
             <Route path="/" element={<CountryContainer />} />
