@@ -3,7 +3,7 @@ import ExpandIcon from '../assets/Expand_down.svg';
 
 const regionList = ['Oceania', 'Asia', 'Europe', 'Africa', 'Antarctic'];
 
-const CountrySort = ({ onRegionButtonClick, onSortOption }) => {
+const CountrySort = ({ onRegionButtonClick, onSortOption, onIndependent }) => {
   // Sort
   const [sortOption, setSortOption] = useState('Population');
   const [sortToggle, setSortToggle] = useState(false);
@@ -25,6 +25,23 @@ const CountrySort = ({ onRegionButtonClick, onSortOption }) => {
     onRegionButtonClick(activeButton);
   }, [handleButtonClick]);
 
+  //status
+  const [isMember, setIsMember] = useState(false);
+  const [isIndependent, setIsIndependent] = useState(false);
+
+  useEffect(() => {
+    onIndependent(isIndependent);
+  }, [isIndependent, isMember]);
+
+  const handleMemberCheckboxChange = () => {
+    setIsMember((prev) => !prev);
+    setIsIndependent(false); // Uncheck independent when member is checked
+  };
+
+  const handleIndependentCheckboxChange = () => {
+    setIsIndependent((prev) => !prev);
+    setIsMember(false); // Uncheck member when independent is checked
+  };
   return (
     <section className="min-w-[300px]">
       {/* sort by */}
@@ -91,11 +108,21 @@ const CountrySort = ({ onRegionButtonClick, onSortOption }) => {
       <div>
         <span>Status</span>
         <div className="flex gap-x-2 mt-2 text-sm ">
-          <input type="checkbox" className="w-[18px]" />
+          <input
+            type="checkbox"
+            className="w-[18px]"
+            checked={isMember}
+            onChange={handleMemberCheckboxChange}
+          />
           <p>Member of the United Nation</p>
         </div>
         <div className="flex gap-x-2 my-3 text-sm">
-          <input type="checkbox" className="w-[18px]" />
+          <input
+            type="checkbox"
+            className="w-[18px]"
+            checked={isIndependent}
+            onChange={handleIndependentCheckboxChange}
+          />
           <p>Independent</p>
         </div>
       </div>

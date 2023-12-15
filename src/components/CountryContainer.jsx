@@ -4,20 +4,27 @@ import SearchIcon from '../assets/Search.svg';
 import CountrySort from '../components/CountrySort';
 import CountryList from '../components/CountryList';
 
-import { fetchDataAll, fetchDataRegion, fetchSearch } from '../api/APIUtils';
+import {
+  fetchDataAll,
+  fetchDataRegion,
+  fetchSearch,
+  fetchIndependent,
+} from '../api/APIUtils';
 import { populationSort, areaSort, alphabeticalSort } from '../utils/Sorting';
 
 const CountryContainer = () => {
   const [countries, setCountries] = useState([]);
   const [sortOption, setSortOption] = useState('Population');
   const [selectedRegion, setSelectedRegion] = useState(null);
+  const [checkIdependent, setCheckIdependent] = useState(false);
 
-  const handleSortOptionClick = async (option) => {
-    setSortOption(option);
-    console.log(option, 'Clicked');
-  };
-  const handleRegionButtonClick = async (region) => {
-    setSelectedRegion(region);
+  const handleSortOptionClick = async (option) => setSortOption(option);
+
+  const handleRegionButtonClick = async (region) => setSelectedRegion(region);
+
+  const handleIndependentClick = async (check) => {
+    console.log(check);
+    setCheckIdependent(check);
   };
   useEffect(() => {
     const fetchDataAndSetCountries = async () => {
@@ -28,7 +35,6 @@ const CountryContainer = () => {
         } else {
           data = await fetchDataAll();
         }
-
         switch (sortOption) {
           case 'Population':
             data = populationSort(data);
@@ -40,7 +46,9 @@ const CountryContainer = () => {
             data = alphabeticalSort(data);
             break;
         }
-
+        if (checkIdependent) {
+          data = await fetchIndependent(data);
+        }
         setCountries(data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -48,7 +56,7 @@ const CountryContainer = () => {
     };
 
     fetchDataAndSetCountries();
-  }, [selectedRegion, sortOption]);
+  }, [selectedRegion, sortOption, checkIdependent]);
 
   const [CountriesSearch, setCountriesSearch] = useState('');
   const [timer, setTimer] = useState(null);
@@ -93,6 +101,7 @@ const CountryContainer = () => {
       </section>
       <main className="flex flex-col lg:flex-row">
         <CountrySort
+          onIndependent={handleIndependentClick}
           onRegionButtonClick={handleRegionButtonClick}
           onSortOption={handleSortOptionClick}
         />

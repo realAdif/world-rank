@@ -11,11 +11,11 @@ const CountryList = ({ countries }) => {
       <table className="w-full text-left text-white text-sm table-auto">
         <thead className="border-b border-gray-300 border-spacing-y-3 ">
           <tr>
-            <th className="py-3">Flage</th>
-            <th>Name</th>
+            <th className="py-3 w-[50px]">Flage</th>
+            <th className="w-[70px]">Name</th>
             <th>Population</th>
             <th>Area(&#13218;)</th>
-            <th>Region</th>
+            <th className="w-[60px]">Region</th>
           </tr>
         </thead>
         <tbody className="text-white text-md">

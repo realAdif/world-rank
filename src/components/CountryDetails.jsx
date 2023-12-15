@@ -9,7 +9,7 @@ const CountryDetails = () => {
     name: country.name.common,
     offical: country.name.official,
     population: country.population.toLocaleString(),
-    area: country.population.toLocaleString(),
+    area: country.area.toLocaleString(),
     capital: country.capital[0],
     subregion: country.subregion,
     language: country.languages[0],
