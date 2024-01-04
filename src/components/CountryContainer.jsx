@@ -17,7 +17,7 @@ import { populationSort, areaSort, alphabeticalSort } from '../utils/Sorting';
 
 const CountryContainer = () => {
   const { countries, setCountries, fetchData } = useCountryContext();
-  // const [CountriesSearch, setCountriesSearch] = useState('');
+  const [CountriesSearch, setCountriesSearch] = useState('');
   const [sortOption, setSortOption] = useState('Population');
   const [selectedRegion, setSelectedRegion] = useState(null);
   const [checkIdependent, setCheckIdependent] = useState(false);
