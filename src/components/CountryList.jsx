@@ -12,7 +12,7 @@ const CountryList = ({ countries }) => {
         <thead className="border-b border-gray-300 border-spacing-y-3 ">
           <tr>
             <th className="py-3 w-[50px]">Flage</th>
-            <th className="w-[70px]">Name</th>
+            <th className="w-[100px] px-3">Name</th>
             <th>Population</th>
             <th>Area(&#13218;)</th>
             <th className="w-[60px]">Region</th>

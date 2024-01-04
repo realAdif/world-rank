@@ -26,15 +26,13 @@ const CountrySort = ({ onRegionButtonClick, onSortOption, onIndependent }) => {
   }, [handleButtonClick]);
 
   //status
-  const [isMember, setIsMember] = useState(false);
   const [isIndependent, setIsIndependent] = useState(false);
 
   useEffect(() => {
     onIndependent(isIndependent);
-  }, [isIndependent, isMember]);
+  }, [isIndependent]);
 
   const handleMemberCheckboxChange = () => {
-    setIsMember((prev) => !prev);
     setIsIndependent(false); // Uncheck independent when member is checked
   };
 
@@ -107,15 +105,6 @@ const CountrySort = ({ onRegionButtonClick, onSortOption, onIndependent }) => {
       {/* status */}
       <div>
         <span>Status</span>
-        <div className="flex gap-x-2 mt-2 text-sm ">
-          <input
-            type="checkbox"
-            className="w-[18px]"
-            checked={isMember}
-            onChange={handleMemberCheckboxChange}
-          />
-          <p>Member of the United Nation</p>
-        </div>
         <div className="flex gap-x-2 my-3 text-sm">
           <input
             type="checkbox"
