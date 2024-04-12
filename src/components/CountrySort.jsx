@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import ExpandIcon from '../assets/Expand_down.svg';
 
 const regionList = ['Oceania', 'Asia', 'Europe', 'Africa', 'Antarctic'];

@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useReducer } from 'react';
-import { fetchDataAll } from '../api/APIUtils'; // Importing the fetchDataAll function from API.js
+import { fetchDataAll, fetchSearch } from '../api/APIUtils'; // Importing the fetchDataAll function from API.js
 
 const initialState = {
   countries: [],
@@ -35,8 +35,20 @@ export const CountryProvider = ({ children }) => {
     fetchData(); // Call fetchData function
   }, []); // Run this effect only once on component mount
 
+  const fetchDataBySearch = async (searchQuery) => {
+    try {
+      const data = await fetchSearch(searchQuery);
+      console.log('search', searchQuery);
+      console.log('search-data', data);
+      dispatch({ type: SET_COUNTRIES, payload: data });
+    } catch (err) {
+      console.error(err);
+    }
+  };
   return (
-    <CountryContext.Provider value={{ countries: state.countries }}>
+    <CountryContext.Provider
+      value={{ countries: state.countries, fetchDataBySearch }}
+    >
       {children}
     </CountryContext.Provider>
   );

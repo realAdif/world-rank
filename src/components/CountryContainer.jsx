@@ -1,8 +1,19 @@
+import { useState } from 'react';
 import SearchIcon from '../assets/Search.svg';
 import CountrySort from '../components/CountrySort';
 import CountryList from '../components/CountryList';
-
+import { useCountryContext } from '../utils/CountryContext';
 const CountryContainer = () => {
+  const { fetchDataBySearch } = useCountryContext();
+  const [searchQuery, setSearchQuery] = useState('');
+  const handleSearchQuery = (event) => {
+    //logic
+    if (event.key === 'Enter') {
+      console.log(searchQuery);
+      fetchDataBySearch(searchQuery);
+    }
+    //handle error
+  };
   return (
     <main className="container mx-auto bg-gray-100 p-3 lg:p-6 lg:rounded-lg lg:shadow-xl lg:border border-gray-200">
       <section className="flex justify-between items-center mb-6">
@@ -11,7 +22,9 @@ const CountryContainer = () => {
           <img src={SearchIcon} alt="Search Icon" />
           <input
             type="text"
-            placeholder="Not Yet Available. :("
+            placeholder="Search for a country"
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyPress={handleSearchQuery}
             className="bg-transparent text-sm w-[170px] text-white"
           />
         </div>
