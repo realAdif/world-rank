@@ -2,12 +2,17 @@ import { useEffect, useState } from 'react';
 import ExpandIcon from '../assets/Expand_down.svg';
 
 const regionList = ['Oceania', 'Asia', 'Europe', 'Africa', 'Antarctic'];
+const sortBy = ['Population', 'Area', 'Alphabetical'];
 
 const CountrySort = () => {
   // Sort
-  const [sortOption, setSortOption] = useState('Population123');
+  const [sortOption, setSortOption] = useState(sortBy[0]);
   const [sortToggle, setSortToggle] = useState(false);
   const sortHandleToggle = () => {
+    setSortToggle((prevSortToggle) => !prevSortToggle);
+  };
+  const handleSortOption = (option) => {
+    setSortOption(option);
     setSortToggle((prevSortToggle) => !prevSortToggle);
   };
 
@@ -32,24 +37,15 @@ const CountrySort = () => {
             sortToggle ? 'absolute z-50 w-[270px] ' : ' hidden'
           }`}
         >
-          <li
-            className="my-3 hover:bg-gray-100 p-3 cursor-pointer"
-            onClick={() => console.log('Population')}
-          >
-            Population
-          </li>
-          <li
-            className="my-3 hover:bg-gray-100 p-3 cursor-pointer"
-            onClick={() => console.log('Area')}
-          >
-            Area
-          </li>
-          <li
-            className="my-3 hover:bg-gray-100 p-3 cursor-pointer"
-            onClick={() => console.log('Alphabetical')}
-          >
-            Alphabetical
-          </li>
+          {sortBy.map((sortOption, index) => (
+            <li
+              key={index}
+              className="my-3 hover:bg-gray-100 p-3 cursor-pointer"
+              onClick={() => handleSortOption(sortOption)}
+            >
+              {sortOption}
+            </li>
+          ))}
         </ul>
       </div>
       {/* region */}
