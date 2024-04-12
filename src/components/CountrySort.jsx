@@ -2,6 +2,11 @@ import { useState, useEffect } from 'react';
 import ExpandIcon from '../assets/Expand_down.svg';
 import { useCountryContext } from '../utils/CountryContext';
 import { populationSort, areaSort, alphabeticalSort } from '../utils/Sorting';
+import {
+  fetchIndependent,
+  fetchDataRegion,
+  fetchDataAll,
+} from '../api/APIUtils';
 //list
 const regionList = ['Oceania', 'Asia', 'Europe', 'Africa', 'Antarctic'];
 const sortBy = ['Population', 'Area', 'Alphabetical'];
@@ -40,7 +45,35 @@ const CountrySort = () => {
   useEffect(() => {
     sortCountries();
   }, [sortOption]);
+  // independent functions
+  const [independentChecked, setIndependentChecked] = useState(false);
+  const handleCheackboxChange = async () => {
+    setIndependentChecked(!independentChecked); // Toggle checkbox state
+    if (!independentChecked) {
+      try {
+        const data = await fetchIndependent(); // Fetch independent countries
+        setCountries(data);
+      } catch (error) {
+        console.error('Error fetching independent countries:', error);
+      }
+    }
+  };
+  //region functions
 
+  const [regionChecked, setRegionChecked] = useState();
+
+  const handleRegionChange = async (region) => {
+    if (regionChecked !== region) {
+      console.log('region changed', region);
+      setRegionChecked(region);
+      const data = await fetchDataRegion(region); // Use the 'region' parameter directly
+      setCountries(data);
+    } else {
+      setRegionChecked(null); // Update
+      const allData = await fetchDataAll(); // Fetch all countries when region is null
+      setCountries(allData);
+    }
+  };
   return (
     <section className="min-w-[300px]">
       {/* sort by */}
@@ -80,10 +113,10 @@ const CountrySort = () => {
           {regionList.map((region, i) => (
             <button
               key={i}
-              onClick={() => console.log(region)}
+              onClick={() => handleRegionChange(region)}
               className={`text-sm font-semibold 
               hover:bg-gray-200 w-fit px-2 py-1 rounded-lg 
-              drop-shadow-sm`}
+              drop-shadow-sm ${regionChecked === region && 'bg-gray-200'}`}
             >
               {region}
             </button>
@@ -94,7 +127,12 @@ const CountrySort = () => {
       <div>
         <span>Status</span>
         <div className="flex gap-x-2 my-3 text-sm">
-          <input type="checkbox" className="w-[18px]" />
+          <input
+            type="checkbox"
+            className="w-[18px]"
+            checked={independentChecked}
+            onChange={handleCheackboxChange}
+          />
           <p>Independent</p>
         </div>
       </div>

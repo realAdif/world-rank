@@ -10,7 +10,7 @@ export const fetchDataAll = async () => {
 export const fetchDataRegion = async (region) => {
   try {
     const response = await fetch(
-      `https://restcountries.com/v3.1/region/${region}`
+      `https://restcountries.com/v3.1/region/${region.toLowerCase()}`
     );
 
     const data = await response.json();
@@ -20,7 +20,6 @@ export const fetchDataRegion = async (region) => {
     console.error('Error fetching data:', error);
   }
 };
-// Search full country name
 export const fetchSearch = async (search) => {
   if (search === '') return fetchDataAll();
   try {
@@ -33,7 +32,6 @@ export const fetchSearch = async (search) => {
     console.error('Error fetching data:', error);
   }
 };
-
 export const fetchIndependent = async () => {
   console.log('Fetching');
   try {
