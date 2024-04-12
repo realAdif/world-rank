@@ -1,11 +1,8 @@
-import { useNavigate } from 'react-router-dom';
+import { useCountryContext } from '../utils/CountryContext';
 
-const CountryList = ({ countries }) => {
-  const navigate = useNavigate();
+const CountryList = () => {
+  const { countries } = useCountryContext();
 
-  const handleCountryClick = (country) => {
-    navigate(`/country/${country.name.common}`, { state: { country } });
-  };
   return (
     <section className="w-full">
       <table className="w-full text-left text-white text-sm table-auto">
@@ -19,10 +16,10 @@ const CountryList = ({ countries }) => {
           </tr>
         </thead>
         <tbody className="text-white text-md">
-          {countries.map((country, index) => (
+          {countries?.map((country, index) => (
             <tr
               key={index}
-              onClick={() => handleCountryClick(country)}
+              onClick={() => console.log(country.name)}
               className="hover:bg-gray-200 cursor-pointer"
             >
               <td className="py-3">

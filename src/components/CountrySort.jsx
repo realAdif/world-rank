@@ -3,43 +3,14 @@ import ExpandIcon from '../assets/Expand_down.svg';
 
 const regionList = ['Oceania', 'Asia', 'Europe', 'Africa', 'Antarctic'];
 
-const CountrySort = ({ onRegionButtonClick, onSortOption, onIndependent }) => {
+const CountrySort = () => {
   // Sort
-  const [sortOption, setSortOption] = useState('Population');
+  const [sortOption, setSortOption] = useState('Population123');
   const [sortToggle, setSortToggle] = useState(false);
   const sortHandleToggle = () => {
     setSortToggle((prevSortToggle) => !prevSortToggle);
   };
-  const handleSortOptionClick = (option) => {
-    onSortOption(option);
-    setSortOption(option);
-    setSortToggle(false);
-  };
-  // Region
-  const [activeButton, setActiveButton] = useState(null);
 
-  const handleButtonClick = (region) => {
-    setActiveButton(region === activeButton ? null : region);
-  };
-  useEffect(() => {
-    onRegionButtonClick(activeButton);
-  }, [handleButtonClick]);
-
-  //status
-  const [isIndependent, setIsIndependent] = useState(false);
-
-  useEffect(() => {
-    onIndependent(isIndependent);
-  }, [isIndependent]);
-
-  const handleMemberCheckboxChange = () => {
-    setIsIndependent(false); // Uncheck independent when member is checked
-  };
-
-  const handleIndependentCheckboxChange = () => {
-    setIsIndependent((prev) => !prev);
-    setIsMember(false); // Uncheck member when independent is checked
-  };
   return (
     <section className="min-w-[300px]">
       {/* sort by */}
@@ -63,19 +34,19 @@ const CountrySort = ({ onRegionButtonClick, onSortOption, onIndependent }) => {
         >
           <li
             className="my-3 hover:bg-gray-100 p-3 cursor-pointer"
-            onClick={() => handleSortOptionClick('Population')}
+            onClick={() => console.log('Population')}
           >
             Population
           </li>
           <li
             className="my-3 hover:bg-gray-100 p-3 cursor-pointer"
-            onClick={() => handleSortOptionClick('Area')}
+            onClick={() => console.log('Area')}
           >
             Area
           </li>
           <li
             className="my-3 hover:bg-gray-100 p-3 cursor-pointer"
-            onClick={() => handleSortOptionClick('Alphabetical')}
+            onClick={() => console.log('Alphabetical')}
           >
             Alphabetical
           </li>
@@ -84,18 +55,14 @@ const CountrySort = ({ onRegionButtonClick, onSortOption, onIndependent }) => {
       {/* region */}
       <div className="my-3">
         <span>Region</span>
-        <div className="flex flex-wrap gap-2 mt-2">
+        <div className="flex flex-wrap gap-2 mt-2 text-white">
           {regionList.map((region, i) => (
             <button
               key={i}
-              onClick={() => handleButtonClick(region)}
+              onClick={() => console.log(region)}
               className={`text-sm font-semibold 
               hover:bg-gray-200 w-fit px-2 py-1 rounded-lg 
-              drop-shadow-sm ${
-                region === activeButton
-                  ? 'bg-gray-200 text-white '
-                  : 'bg-none text-gray-300'
-              }`}
+              drop-shadow-sm`}
             >
               {region}
             </button>
@@ -106,12 +73,7 @@ const CountrySort = ({ onRegionButtonClick, onSortOption, onIndependent }) => {
       <div>
         <span>Status</span>
         <div className="flex gap-x-2 my-3 text-sm">
-          <input
-            type="checkbox"
-            className="w-[18px]"
-            checked={isIndependent}
-            onChange={handleIndependentCheckboxChange}
-          />
+          <input type="checkbox" className="w-[18px]" />
           <p>Independent</p>
         </div>
       </div>
