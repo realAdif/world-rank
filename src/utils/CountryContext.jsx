@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useReducer } from 'react';
 import { fetchDataAll, fetchSearch } from '../api/APIUtils'; // Importing the fetchDataAll function from API.js
-
+import { populationSort } from '../utils/Sorting';
 const initialState = {
   countries: [],
 };
@@ -25,8 +25,9 @@ export const CountryProvider = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await fetchDataAll(); // Call fetchDataAll function from API.js
-        dispatch({ type: SET_COUNTRIES, payload: data });
+        const data = await fetchDataAll(); // Call fetchDataAll function from API.js\
+        const sortedData = populationSort(data); // Sort data by population
+        dispatch({ type: SET_COUNTRIES, payload: sortedData });
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -35,20 +36,29 @@ export const CountryProvider = ({ children }) => {
     fetchData(); // Call fetchData function
   }, []); // Run this effect only once on component mount
 
+  const setCountries = (countries) => {
+    dispatch({ type: SET_COUNTRIES, payload: countries });
+  };
+
   const fetchDataBySearch = async (searchQuery) => {
     try {
       const data = await fetchSearch(searchQuery);
       console.log('search', searchQuery);
       console.log('search-data', data);
-      dispatch({ type: SET_COUNTRIES, payload: data });
+      setCountries(data); // Call setCountries to update state
     } catch (err) {
       console.error(err);
     }
   };
+
+  const contextValue = {
+    countries: state.countries,
+    setCountries: setCountries,
+    fetchDataBySearch: fetchDataBySearch, // Add fetchDataBySearch to context value
+  };
+
   return (
-    <CountryContext.Provider
-      value={{ countries: state.countries, fetchDataBySearch }}
-    >
+    <CountryContext.Provider value={contextValue}>
       {children}
     </CountryContext.Provider>
   );

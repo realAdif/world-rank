@@ -1,13 +1,18 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ExpandIcon from '../assets/Expand_down.svg';
-
+import { useCountryContext } from '../utils/CountryContext';
+import { populationSort, areaSort, alphabeticalSort } from '../utils/Sorting';
+//list
 const regionList = ['Oceania', 'Asia', 'Europe', 'Africa', 'Antarctic'];
 const sortBy = ['Population', 'Area', 'Alphabetical'];
 
 const CountrySort = () => {
   // Sort
-  const [sortOption, setSortOption] = useState(sortBy[0]);
+  const [sortOption, setSortOption] = useState('Population');
   const [sortToggle, setSortToggle] = useState(false);
+  const { countries, setCountries } = useCountryContext();
+  //
+
   const sortHandleToggle = () => {
     setSortToggle((prevSortToggle) => !prevSortToggle);
   };
@@ -15,6 +20,26 @@ const CountrySort = () => {
     setSortOption(option);
     setSortToggle((prevSortToggle) => !prevSortToggle);
   };
+  const sortCountries = () => {
+    let sortedCountries = [...countries];
+    switch (sortOption) {
+      case 'Population':
+        sortedCountries = populationSort(sortedCountries);
+        break;
+      case 'Area':
+        sortedCountries = areaSort(sortedCountries);
+        break;
+      case 'Alphabetical':
+        sortedCountries = alphabeticalSort(sortedCountries);
+        break;
+      default:
+        break;
+    }
+    setCountries(sortedCountries);
+  };
+  useEffect(() => {
+    sortCountries();
+  }, [sortOption]);
 
   return (
     <section className="min-w-[300px]">
