@@ -1,18 +1,16 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { fetchDataAll } from '../api/APIUtils.js';
-// import { populationSort } from '../utils/sorting.js';
 
 const appContext = createContext({});
 
 function AppContextProvider({ children }) {
   const [countries, setCountries] = useState([]);
-
-  const [sortList, setSortList] = useState('Population');
+  const [sortList, setSortList] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await fetchDataAll();
+        const response = await fetch('https://restcountries.com/v3.1/all');
+        const data = await response.json();
         setCountries(data);
       } catch (error) {
         console.error('Error fetching data:', error);
