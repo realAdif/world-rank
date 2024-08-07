@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { fetchDataAll, fetchDataRegion } from '../api/APIUtils.js';
+import { fetchDataAll } from '../api/APIUtils.js';
 import { populationSort } from '../utils/sorting.js';
 
 const appContext = createContext({});
