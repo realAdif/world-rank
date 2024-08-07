@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 const CountryDetails = () => {
   const location = useLocation();
   const country = location.state?.country;
+
   const countryCard = {
     image: country.flags.svg,
     alt: country.flags.alt,

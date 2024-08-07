@@ -1,7 +1,7 @@
-import { useCountryContext } from '../utils/CountryContext';
+import { useAppContext } from '../context/appContext';
 
 const CountryList = () => {
-  const { countries } = useCountryContext();
+  const { countries } = useAppContext();
 
   return (
     <section className="w-full">

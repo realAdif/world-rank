@@ -1,79 +1,49 @@
-import { useState, useEffect } from 'react';
-import ExpandIcon from '../assets/Expand_down.svg';
-import { useCountryContext } from '../utils/CountryContext';
-import { populationSort, areaSort, alphabeticalSort } from '../utils/Sorting';
-import {
-  fetchIndependent,
-  fetchDataRegion,
-  fetchDataAll,
-} from '../api/APIUtils';
-//list
-const regionList = ['Oceania', 'Asia', 'Europe', 'Africa', 'Antarctic'];
+import { useState } from 'react';
+import { useAppContext } from '../context/appContext';
+
+// const regionList = ['Oceania', 'Asia', 'Europe', 'Africa', 'Antarctic'];
 const sortBy = ['Population', 'Area', 'Alphabetical'];
 
 const CountrySort = () => {
-  // Sort
-  const [sortOption, setSortOption] = useState('Population');
+  const { setCountries, sortList, setSortList } = useAppContext();
   const [sortToggle, setSortToggle] = useState(false);
-  const { countries, setCountries } = useCountryContext();
-  //
 
   const sortHandleToggle = () => {
     setSortToggle((prevSortToggle) => !prevSortToggle);
   };
-  const handleSortOption = (option) => {
-    setSortOption(option);
-    setSortToggle((prevSortToggle) => !prevSortToggle);
-  };
-  const sortCountries = () => {
-    let sortedCountries = [...countries];
-    switch (sortOption) {
-      case 'Population':
-        sortedCountries = populationSort(sortedCountries);
-        break;
-      case 'Area':
-        sortedCountries = areaSort(sortedCountries);
-        break;
-      case 'Alphabetical':
-        sortedCountries = alphabeticalSort(sortedCountries);
-        break;
-      default:
-        break;
-    }
-    setCountries(sortedCountries);
-  };
-  useEffect(() => {
-    sortCountries();
-  }, [sortOption]);
-  // independent functions
-  const [independentChecked, setIndependentChecked] = useState(false);
-  const handleCheackboxChange = async () => {
-    setIndependentChecked(!independentChecked); // Toggle checkbox state
-    if (!independentChecked) {
-      try {
-        const data = await fetchIndependent(); // Fetch independent countries
-        setCountries(data);
-      } catch (error) {
-        console.error('Error fetching independent countries:', error);
-      }
-    }
-  };
-  //region functions
-
-  const [regionChecked, setRegionChecked] = useState();
-
-  const handleRegionChange = async (region) => {
-    if (regionChecked !== region) {
-      console.log('region changed', region);
-      setRegionChecked(region);
-      const data = await fetchDataRegion(region); // Use the 'region' parameter directly
-      setCountries(data);
+  const sortHandle = (sort) => {
+    setSortList(sort);
+    if (sort === 'Population') {
+      setCountries((prevCountries) =>
+        [...prevCountries].sort((a, b) => b.population - a.population)
+      );
+    } else if (sort === 'Area') {
+      setCountries((prevCountries) =>
+        [...prevCountries].sort((a, b) => b.area - a.area)
+      );
     } else {
-      setRegionChecked(null); // Update
-      const allData = await fetchDataAll(); // Fetch all countries when region is null
-      setCountries(allData);
+      setCountries((prevCountries) =>
+        [...prevCountries].sort((a, b) =>
+          a.name.common.localeCompare(b.name.common)
+        )
+      );
     }
+
+    setSortToggle(false);
   };
+
+  // const sortRegion = async (item) => {
+  //   setRegion(item);
+  //   console.log('region', item);
+  //   try {
+  //     const data = await fetchDataRegion(region);
+  //     console.log('data', data);
+  //     // setCountries(data);
+  //   } catch (error) {
+  //     console.error('Error fetching data:', error);
+  //   }
+  // };
+
   return (
     <section className="min-w-[300px]">
       {/* sort by */}
@@ -84,58 +54,44 @@ const CountrySort = () => {
             sortToggle ? 'rounded-t-lg' : 'rounded-lg '
           }`}
         >
-          <p className="text-sm">{sortOption}</p>
+          <p className="text-sm">{sortList}</p>
           <button onClick={sortHandleToggle}>
-            <img src={ExpandIcon} alt="Expand down icon" />
+            <img src="assets/Expand_down.svg" alt="Expand down icon" />
           </button>
         </div>
-
-        <ul
+        <div
           className={`text-white text-sm  bg-gray-200 p-2 lg:mr-6 min-w-[200px] ${
             sortToggle ? 'absolute z-50 w-[270px] ' : ' hidden'
           }`}
         >
-          {sortBy.map((sortOption, index) => (
-            <li
-              key={index}
-              className="my-3 hover:bg-gray-100 p-3 cursor-pointer"
-              onClick={() => handleSortOption(sortOption)}
-            >
-              {sortOption}
-            </li>
-          ))}
-        </ul>
-      </div>
-      {/* region */}
-      <div className="my-3">
-        <span>Region</span>
-        <div className="flex flex-wrap gap-2 mt-2 text-white">
-          {regionList.map((region, i) => (
+          {sortBy.map((sort, index) => (
             <button
-              key={i}
-              onClick={() => handleRegionChange(region)}
-              className={`text-sm font-semibold 
-              hover:bg-gray-200 w-fit px-2 py-1 rounded-lg 
-              drop-shadow-sm ${regionChecked === region && 'bg-gray-200'}`}
+              key={index}
+              onClick={() => sortHandle(sort)}
+              className="my-3 hover:bg-gray-100 p-3 cursor-pointer w-full"
             >
-              {region}
+              {sort}
             </button>
           ))}
         </div>
       </div>
-      {/* status */}
-      <div>
-        <span>Status</span>
-        <div className="flex gap-x-2 my-3 text-sm">
-          <input
-            type="checkbox"
-            className="w-[18px]"
-            checked={independentChecked}
-            onChange={handleCheackboxChange}
-          />
-          <p>Independent</p>
+      {/* region */}
+      {/* <div className="my-3">
+        <span>Region</span>
+        <div className="flex flex-wrap gap-2 mt-2 text-white">
+          {regionList.map((item, i) => (
+            <button
+              onClick={() => sortRegion(item)}
+              key={i}
+              className={`text-sm font-semibold 
+              hover:bg-gray-200 w-fit px-2 py-1 rounded-lg 
+              drop-shadow-sm ${region === item && 'bg-gray-200'}`}
+            >
+              {item}
+            </button>
+          ))}
         </div>
-      </div>
+      </div> */}
     </section>
   );
 };
