@@ -32,18 +32,6 @@ const CountrySort = () => {
     setSortToggle(false);
   };
 
-  // const sortRegion = async (item) => {
-  //   setRegion(item);
-  //   console.log('region', item);
-  //   try {
-  //     const data = await fetchDataRegion(region);
-  //     console.log('data', data);
-  //     // setCountries(data);
-  //   } catch (error) {
-  //     console.error('Error fetching data:', error);
-  //   }
-  // };
-
   return (
     <section className="min-w-[300px]">
       {/* sort by */}
