@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useAppContext } from '../context/appContext';
 
-// const regionList = ['Oceania', 'Asia', 'Europe', 'Africa', 'Antarctic'];
-const sortBy = ['Population', 'Area', 'Alphabetical'];
-
 const CountrySort = () => {
+  const regionList = ['Oceania', 'Asia', 'Europe', 'Africa', 'Antarctic'];
+  const sortBy = ['Population', 'Area', 'Alphabetical'];
   const { setCountries, sortList, setSortList } = useAppContext();
   const [sortToggle, setSortToggle] = useState(false);
+  const [region, setRegion] = useState('');
 
   const sortHandleToggle = () => {
     setSortToggle((prevSortToggle) => !prevSortToggle);
@@ -28,8 +28,22 @@ const CountrySort = () => {
         )
       );
     }
-
     setSortToggle(false);
+  };
+  const sortRegion = async (subregion) => {
+    if (subregion !== region) {
+      setRegion(subregion);
+      setSortList('');
+      try {
+        const response = await fetch(
+          `https://restcountries.com/v3.1/region/${subregion}`
+        );
+        const data = await response.json();
+        setCountries(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
   };
 
   return (
@@ -64,13 +78,13 @@ const CountrySort = () => {
         </div>
       </div>
       {/* region */}
-      {/* <div className="my-3">
+      <div className="my-3">
         <span>Region</span>
         <div className="flex flex-wrap gap-2 mt-2 text-white">
           {regionList.map((item, i) => (
             <button
-              onClick={() => sortRegion(item)}
               key={i}
+              onClick={() => sortRegion(item)}
               className={`text-sm font-semibold 
               hover:bg-gray-200 w-fit px-2 py-1 rounded-lg 
               drop-shadow-sm ${region === item && 'bg-gray-200'}`}
@@ -79,7 +93,7 @@ const CountrySort = () => {
             </button>
           ))}
         </div>
-      </div> */}
+      </div>
     </section>
   );
 };
